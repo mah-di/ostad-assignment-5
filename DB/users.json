@@ -1,0 +1,20 @@
+[
+    {
+        "username": "jondoe",
+        "email": "jon@doe.com",
+        "password": "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e",
+        "role": "admin"
+    },
+    {
+        "username": "jane_doe",
+        "email": "jane@doe.com",
+        "password": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "role": "manager"
+    },
+    {
+        "username": "junedoe",
+        "email": "june@doe.com",
+        "password": "4fc82b26aecb47d2868c4efbe3581732a3e7cbcc6c2efb32062c08170a05eeb8",
+        "role": "user"
+    }
+]
