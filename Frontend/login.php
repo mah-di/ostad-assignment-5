@@ -6,11 +6,11 @@
     <form method="POST" class="ui form">
         <div class="field">
             <label>UserName</label>
-            <input type="text" name="username" placeholder="UserName">
+            <input type="text" required name="username" placeholder="UserName">
         </div>
         <div class="field">
             <label>Password</label>
-            <input type="password" name="password" placeholder="*******">
+            <input type="password" required name="password" placeholder="*******">
         </div>
         <button class="ui large teal button" type="submit">LogIn</button>
     </form>

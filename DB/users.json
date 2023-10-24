@@ -1,6 +1,6 @@
 [
     {
-        "username": "jondoe",
+        "username": "JonDoe",
         "email": "jon@doe.com",
         "password": "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e",
         "role": "admin"
@@ -12,7 +12,7 @@
         "role": "manager"
     },
     {
-        "username": "junedoe",
+        "username": "JuneDoe",
         "email": "june@doe.com",
         "password": "4fc82b26aecb47d2868c4efbe3581732a3e7cbcc6c2efb32062c08170a05eeb8",
         "role": "user"

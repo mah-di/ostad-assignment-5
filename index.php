@@ -152,7 +152,7 @@ elseif ($path == "/manager-area")
 {
     if (!isLoggedIn()) return redirectWithMessage("/", "info", "Invalid Request.");
 
-    if ($_SESSION["role"] !== "admin" && $_SESSION["role"] !== "manager") return redirectWithMessage("/" . $_SESSION["role"] . "-area", "info", "You are not authorized to access the requested page.");
+    if ($_SESSION["role"] == "user") return redirectWithMessage("/" . $_SESSION["role"] . "-area", "info", "You are not authorized to access the requested page.");
 
     view("managerArea");
 

@@ -6,11 +6,11 @@
     <form method="POST" class="ui form">
         <div class="field">
             <label>Your UserName</label>
-            <input type="text" name="username" value="<?php echo $_SESSION["username"]; ?>">
+            <input type="text" name="username" required value="<?php echo $_SESSION["username"]; ?>">
         </div>
         <div class="field">
             <label>You Email</label>
-            <input type="email" name="email" value="<?php echo $_SESSION["email"]; ?>">
+            <input type="email" name="email" required value="<?php echo $_SESSION["email"]; ?>">
         </div>
         <button type="submit" class="ui large teal button">Update</button>
     </form>
@@ -24,7 +24,7 @@
     <form action="/profile/delete" method="POST" class="ui form">
         <div class="field">
             <label>Enter Your Password</label>
-            <input type="password" name="password" placeholder="********">
+            <input type="password" name="password" required placeholder="********">
         </div>
         <button class="ui large red button">Delete Profile</button>
     </form>

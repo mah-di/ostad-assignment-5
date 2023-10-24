@@ -6,13 +6,32 @@ function updateProfile()
 {
     extract($_POST);
 
+    $validData = true;
+
     if ($username == $_SESSION["username"] && $email == $_SESSION["email"]) return redirect("/profile");
 
-    if ($username == "" || $email == "") return redirectWithMessage("/profile", "error", "Both fields are required.");
+    if ($username == "" || $email == "")
+    {
+        $validData = false;
 
-    if ($username !== $_SESSION["username"] && usernameExists($username)) return redirectWithMessage("/profile", "error", "This UserName is already taken.");
+        setMessage("error", "Both fields are required.");
+    }
+    
+    if ($username !== $_SESSION["username"] && usernameExists($username))
+    {
+        $validData = false;
 
-    if ($email !== $_SESSION["email"] && emailExists($email)) return redirectWithMessage("/profile", "error", "This Email is already registered.");
+        setMessage("error", "This UserName is already taken.");
+    }
+    
+    if ($email !== $_SESSION["email"] && emailExists($email))
+    {
+        $validData = false;
+
+        setMessage("error", "This Email is already registered.");
+    }
+
+    if (!$validData) return redirect("/profile");
 
     updateUser($username, $email);
 

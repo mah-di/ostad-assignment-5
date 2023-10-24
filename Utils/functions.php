@@ -1,24 +1,23 @@
 <?php
 
-function getPath()
+function getPath(): string
 {
     return rtrim($_SERVER['PATH_INFO'], "\n\r\t\v\x00/");
 }
 
-function view(string $view)
+function view(string $view): void
 {
     $_SESSION["view"]               =   $view;
 
     require_once("Frontend".DIRECTORY_SEPARATOR."template.php");
 
-    unset($_SESSION["view"]);
     unset($_SESSION["info"]);
     unset($_SESSION["success"]);
     unset($_SESSION["error"]);
     unset($_SESSION["message"]);
 }
 
-function authView(string $view)
+function authView(string $view): void
 {
     $_SESSION["view"]               =   $view;
 
@@ -27,12 +26,12 @@ function authView(string $view)
     session_unset();
 }
 
-function getDBFilename()
+function getDBFilename(): string
 {
-    return getcwd() . DIRECTORY_SEPARATOR . "DB/users.json";
+    return "DB" . DIRECTORY_SEPARATOR . "users.json";
 }
 
-function save(array $users)
+function save(array $users): void
 {
     $filename                       =   getDBFilename();
 
@@ -41,7 +40,7 @@ function save(array $users)
     file_put_contents($filename, $content, LOCK_EX);
 }
 
-function getUsers()
+function getUsers(): array
 {
     $filename                       =   getDBFilename();
 
@@ -50,16 +49,16 @@ function getUsers()
     return $users;
 }
 
-function getUser(int $userId): stdClass
+function getUser($userId): ?stdClass
 {
     $users                          =   getUsers();
 
-    $user                           =   $users[$userId];
+    $user                           =   array_key_exists($userId, $users) ? $users[$userId] : null;
 
     return $user;
 }
 
-function emailExists($email)
+function emailExists(string $email): bool
 {
     $users                          =   getUsers();
 
@@ -68,7 +67,7 @@ function emailExists($email)
     return false;
 }
 
-function usernameExists($username)
+function usernameExists(string $username): bool
 {
     $users                          =   getUsers();
 
@@ -89,31 +88,77 @@ function createUser(): stdClass
     return $user;
 }
 
-function redirect(string $url, int $code = 0)
+function redirect(string $url)
 {
     return header("Location: {$url}");
+}
+
+function setMessage(string $type, string $message): void
+{
+    $_SESSION[$type]                =   true;
+
+    if (isset($_SESSION["message"])) $_SESSION["message"][] =   $message;
+
+    else $_SESSION["message"]                               =   [$message];
+
 }
 
 function redirectWithMessage(string $url, string $type, string $message)
 {
-    if ($type == "info") $_SESSION["info"]                  =   true;
-    if ($type == "success") $_SESSION["success"]            =   true;
-    if ($type == "error") $_SESSION["error"]                =   true;
+    setMessage($type, $message);
 
-    $_SESSION["message"]            =   $message;
-
-    return header("Location: {$url}");
+    return redirect($url);
 }
 
-function validationError(string $redirect, string $msg, string $username, string $email)
+function checkValidation(string $username, string $email, string $password, string $passwordConfirm): bool
 {
-    $_SESSION["username"]           =   $username;
-    $_SESSION["email"]              =   $email;
-    
-    return redirectWithMessage($redirect, "error", $msg);
+    $validData                              =   true;
+
+    if ($username == "" || $email == "" || $password == "" || $passwordConfirm == "")
+    {
+        $validData                          =   false;
+
+        setMessage("error", "All fields are required.");
+    }
+
+    if (strlen($password) < 6)
+    {
+        $validData                          =   false;
+
+        setMessage("error", "Password must contain 6 or more characters.");
+    }
+
+    if ($password !== $passwordConfirm)
+    {
+        $validData                          =   false;
+
+        setMessage("error", "Passwords doesn't match.");
+    }
+
+    if (usernameExists($username))
+    {
+        $validData                          =   false;
+
+        setMessage("error", "The username is taken.");
+    }
+
+    if (emailExists($email))
+    {
+        $validData                          =   false;
+
+        setMessage("error", "The email is taken.");
+    }
+
+    if (!$validData)
+    {
+        $_SESSION["requestedUsername"]      =   $username;
+        $_SESSION["requestedEmail"]         =   $email;
+    }
+
+    return $validData;
 }
 
-function register()
+function register(): stdClass
 {
     $newUser                        =   createUser();
 
@@ -132,11 +177,11 @@ function register()
     return $newUser;
 }
 
-function userExists(string $username, string $password)
+function userExists(string $username, string $password): stdClass | false
 {
     $users                          =   getUsers();
 
-    foreach ($users as $userId =>$user)
+    foreach ($users as $userId => $user)
     {
         if ($user->username == $username && $user->password == hash("sha256", $password))
         {
@@ -149,7 +194,7 @@ function userExists(string $username, string $password)
     return false;
 }
 
-function login(stdClass $user)
+function login(stdClass $user): void
 {
     $_SESSION["isLoggedIn"]         =   true;
     $_SESSION["userId"]             =   $user->userId;

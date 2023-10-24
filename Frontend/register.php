@@ -6,19 +6,19 @@
     <form method="POST" class="ui form">
         <div class="field">
             <label>UserName</label>
-            <input type="text" name="username" placeholder="UserName" value="<?php echo $_SESSION["username"] ?? ""; ?>">
+            <input type="text" name="username" required placeholder="UserName" value="<?php echo $_SESSION["requestedUsername"] ?? ""; ?>">
         </div>
         <div class="field">
             <label>Email</label>
-            <input type="email" name="email" placeholder="example@email.com" value="<?php echo $_SESSION["email"] ?? ""; ?>">
+            <input type="email" name="email" required placeholder="example@email.com" value="<?php echo $_SESSION["requestedEmail"] ?? ""; ?>">
         </div>
         <div class="field">
             <label>Password</label>
-            <input type="password" name="password" placeholder="********">
+            <input type="password" name="password" required placeholder="********">
         </div>
         <div class="field">
             <label>Confirm Password</label>
-            <input type="password" name="passwordConfirm" placeholder="********">
+            <input type="password" name="passwordConfirm" required placeholder="********">
         </div>
         <button type="submit" class="ui large teal button">SignUp</button>
     </form>

@@ -6,6 +6,8 @@ function removeRole($userId)
 {
     $users = getUsers();
 
+    if (!array_key_exists($userId, $users)) return redirectWithMessage("/", "info", "No such user exists.");
+
     $users[$userId]->role = "user";
 
     save($users);

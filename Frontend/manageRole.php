@@ -6,9 +6,16 @@ $path = getPath();
 
 $pathParams = explode("/manage-user-role/", $path);
 
-$userId = (int) end($pathParams);
+$userId = end($pathParams);
 
 $user = getUser($userId);
+
+if ($user === null)
+{
+    redirectWithMessage("/", "info", "No such user exists.");
+
+    die();
+}
 
 ?>
 <div style="padding: 15vh 5vw; background-color: #fcfcfc">
@@ -22,7 +29,7 @@ $user = getUser($userId);
         <input type="hidden" name="userId" value="<?php echo $userId; ?>">
         <div class="field">
             <label>Assign a different role for <i><?php echo "@{$user->username}" ?></i></label>
-            <select name="role" id="">
+            <select name="role" required>
                 <option value="">assign a role</option>
                 <option <?php if ($user->role == "admin") echo "selected"; ?> value="admin">admin</option>
                 <option <?php if ($user->role == "manager") echo "selected"; ?> value="manager">manager</option>
