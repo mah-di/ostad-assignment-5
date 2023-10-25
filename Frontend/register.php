@@ -1,4 +1,4 @@
-<div style="padding: 15vh 5vw; background-color: #fcfcfc">
+<div style="padding: 15vh 5vw; background-color: rgb(245, 255, 255);">
     <h2 class="ui header centered">
         Sign Up
     </h2>

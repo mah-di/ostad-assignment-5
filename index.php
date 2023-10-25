@@ -74,6 +74,20 @@ elseif ($path == '/profile')
     return;
 }
 
+elseif ($path == "/profile/update/password")
+{
+    if (!isLoggedIn()) return redirectWithMessage("/", "info", "Invalid Request");
+
+    if ($method == "POST")
+    {
+        require_once("App".DIRECTORY_SEPARATOR."handleChangePassword.php");
+
+        handleChangePassword();
+
+        return;
+    }
+}
+
 elseif (str_starts_with($path, "/delete/"))
 {
     if (!isLoggedIn() || $_SESSION["role"] !== "admin") return redirectWithMessage("/", "info", "Invalid Request.");

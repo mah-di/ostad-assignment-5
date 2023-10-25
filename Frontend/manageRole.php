@@ -18,7 +18,7 @@ if ($user === null)
 }
 
 ?>
-<div style="padding: 15vh 5vw; background-color: #fcfcfc">
+<div style="margin-top: 5vh; padding: 20px; background-color: rgb(245, 255, 255);">
     <h3 class="ui header centered">
         Manage Role for - <i><?php echo "@{$user->username}"; ?></i>
     </h3>

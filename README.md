@@ -6,8 +6,8 @@
 
 #### Manager
 * username : jane_doe
-* password : 1
+* password : 123123
 
 #### Regular User
 * username : JuneDoe
-* password : 11
+* password : 123123

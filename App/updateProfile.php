@@ -10,26 +10,11 @@ function updateProfile()
 
     if ($username == $_SESSION["username"] && $email == $_SESSION["email"]) return redirect("/profile");
 
-    if ($username == "" || $email == "")
-    {
-        $validData = false;
+    if (isEmptyData($username, $email)) $validData = false;
 
-        setMessage("error", "Both fields are required.");
-    }
-    
-    if ($username !== $_SESSION["username"] && usernameExists($username))
-    {
-        $validData = false;
+    if ($username !== $_SESSION["username"] && !validateUsername($username)) $validData = false;
 
-        setMessage("error", "This UserName is already taken.");
-    }
-    
-    if ($email !== $_SESSION["email"] && emailExists($email))
-    {
-        $validData = false;
-
-        setMessage("error", "This Email is already registered.");
-    }
+    if ($email !== $_SESSION["email"] && !validateEmail($email)) $validData = false;
 
     if (!$validData) return redirect("/profile");
 

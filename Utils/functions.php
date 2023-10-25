@@ -110,44 +110,95 @@ function redirectWithMessage(string $url, string $type, string $message)
     return redirect($url);
 }
 
-function checkValidation(string $username, string $email, string $password, string $passwordConfirm): bool
+function isEmptyData(string ...$data): bool
 {
-    $validData                              =   true;
-
-    if ($username == "" || $email == "" || $password == "" || $passwordConfirm == "")
+    foreach ($data as $value)
     {
-        $validData                          =   false;
+        if ($value == "")
+        {
+            setMessage("error", "All fields are required.");
 
-        setMessage("error", "All fields are required.");
+            return true;
+        }
     }
+
+    return false;
+}
+
+function validateUsername(string $username): bool
+{
+    $valid                                  =   true;
+
+    if (!preg_match('/^\w{4,}$/', $username))
+    {
+        $valid                              =   false;
+
+        setMessage("error", "Invalid UserName. UserName must contain 4 or more characters and only allowed special character is _");
+    }
+
+    if (usernameExists($username))
+    {
+        $valid                              =   false;
+
+        setMessage("error", "The username is taken.");
+    }
+
+    return $valid;
+}
+
+function validateEmail(string $email): bool
+{
+    $valid                                  =   true;
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+    {
+        $valid                              =   false;
+
+        setMessage("error", "Invalid email, please provide a valid email.");
+    }
+
+    if (emailExists($email))
+    {
+        $valid                              =   false;
+
+        setMessage("error", "The email is taken.");
+    }
+
+    return $valid;
+}
+
+function validatePassword(string $password, string $passwordConfirm): bool
+{
+    $valid                                  = true;
 
     if (strlen($password) < 6)
     {
-        $validData                          =   false;
+        $valid                              =   false;
 
         setMessage("error", "Password must contain 6 or more characters.");
     }
 
     if ($password !== $passwordConfirm)
     {
-        $validData                          =   false;
+        $valid                              =   false;
 
         setMessage("error", "Passwords doesn't match.");
     }
 
-    if (usernameExists($username))
-    {
-        $validData                          =   false;
+    return $valid;
+}
 
-        setMessage("error", "The username is taken.");
-    }
+function checkValidation(string $username, string $email, string $password, string $passwordConfirm): bool
+{
+    $validData                              =   true;
 
-    if (emailExists($email))
-    {
-        $validData                          =   false;
+    if (isEmptyData($username, $email, $password, $passwordConfirm)) $validData =   false;
 
-        setMessage("error", "The email is taken.");
-    }
+    if (!validateUsername($username)) $validData                                =   false;
+
+    if (!validateEmail($email)) $validData                                      =   false;
+
+    if (!validatePassword($password, $passwordConfirm)) $validData              =   false;
 
     if (!$validData)
     {
@@ -208,7 +259,7 @@ function isLoggedIn(): bool
     return isset($_SESSION["isLoggedIn"]);
 }
 
-function updateUser($username, $email)
+function updateUser($username, $email): void
 {
     $userId                         =   $_SESSION["userId"];
 
@@ -216,6 +267,17 @@ function updateUser($username, $email)
 
     $users[$userId]->username       =   $username;
     $users[$userId]->email          =   $email;
+
+    save($users);
+}
+
+function updatePassword(string $password): void
+{
+    $userId                         =   $_SESSION["userId"];
+
+    $users                          =   getUsers();
+
+    $users[$userId]->password       =   hash("sha256", $password);
 
     save($users);
 }
