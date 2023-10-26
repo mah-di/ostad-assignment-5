@@ -36,3 +36,8 @@
 #### Accessible to admins only
 * <http://localhost:8000/admin-area/>
 * <http://localhost:8000/manage-user-role/{userId}>
+
+## PROJECT RUN THROUGH
+
+[<img src="https://img.youtube.com/vi/vGAYGkSCo24/hqdefault.jpg" width="600" height="300"
+/>](https://www.youtube.com/embed/vGAYGkSCo24)
