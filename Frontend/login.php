@@ -5,8 +5,8 @@
 
     <form method="POST" class="ui form">
         <div class="field">
-            <label>UserName</label>
-            <input type="text" required name="username" placeholder="UserName">
+            <label>Email</label>
+            <input type="text" required name="email" placeholder="example@email.com">
         </div>
         <div class="field">
             <label>Password</label>

@@ -228,13 +228,13 @@ function register(): stdClass
     return $newUser;
 }
 
-function userExists(string $username, string $password): stdClass | false
+function userExists(string $email, string $password): stdClass | false
 {
     $users                          =   getUsers();
 
     foreach ($users as $userId => $user)
     {
-        if ($user->username == $username && $user->password == hash("sha256", $password))
+        if ($user->email == $email && $user->password == hash("sha256", $password))
         {
             $user->userId           =   $userId;
     

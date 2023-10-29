@@ -1,15 +1,15 @@
 ## USER ROLES AND CREDENTIALS
 
 #### Admin
-* username : JonDoe
+* email : jon@doe.com
 * password : 123123
 
 #### Manager
-* username : jane_doe
+* email : jane@doe.com
 * password : 123123
 
 #### Regular User
-* username : JuneDoe
+* email : june@doe.com
 * password : 123123
 
 ## SERVE THE PROJECT
